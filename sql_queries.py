@@ -7,25 +7,55 @@ config.read('dwh.cfg')
 
 # DROP TABLES
 
-staging_events_table_drop = ""
-staging_songs_table_drop = ""
-songplay_table_drop = ""
-user_table_drop = ""
-song_table_drop = ""
-artist_table_drop = ""
-time_table_drop = ""
+staging_events_table_drop = "DROP TABLE IF EXISTS staging_events"
+staging_songs_table_drop = "DROP TABLE IF EXISTS songplays"
+songplay_table_drop = "DROP TABLE IF EXISTS songplays"
+user_table_drop = "DROP TABLE IF EXISTS users"
+song_table_drop = "DROP TABLE IF EXISTS songs"
+artist_table_drop = "DROP TABLE IF EXISTS artists"
+time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
 staging_events_table_create= ("""
+CREATE TABLE staging_events(
+    event_id INT IDENTITY(0,1) PRIMARY KEY,
+    artist VARCHAR(255),
+    auth VARCHAR(255),
+    firstName VARCHAR(255),
+    gender  VARCHAR(255),
+    ItemInSession	INT,
+    lastName VARCHAR(255),
+    length	DOUBLE PRECISION, 
+    level VARCHAR(255),
+    location VARCHAR(255),	
+    method VARCHAR(255),
+    page VARCHAR(255),	
+    registration VARCHAR(255),	
+    session_id	INT,
+    song VARCHAR(255),
+    status INT,	
+    ts VARCHAR(255),
+    user_agent VARCHAR(255),	
+    user_id INT);
 """)
 
 staging_songs_table_create = ("""
+CREATE TABLE staging_songs(
+    song_id VARCHAR(255) PRIMARY KEY,
+    num_songs INT,
+    artist_id VARCHAR(255),
+    artist_latitude DOUBLE PRECISION,
+    artist_longitude DOUBLE PRECISION,
+    artist_location VARCHAR(255),
+    artist_name VARCHAR(255),
+    title VARCHAR(255),
+    duration DOUBLE PRECISION,
+    year INT);
 """)
 
 songplay_table_create = ("""
-CREATE TABLE IF NOT EXISTS songplays \
-( \
+CREATE TABLE IF NOT EXISTS songplays ( \
  songplay_id IDENTITY(0,1) PRIMARY KEY, \
  start_time TIMESTAMP NOT NULL, \
  user_id INT NOT NULL, \
@@ -34,59 +64,51 @@ CREATE TABLE IF NOT EXISTS songplays \
  artist_id VARCHAR(255), \
  session_id INT, \
  location VARCHAR(255), \
- user_agent VARCHAR(255) \
-);
+ user_agent VARCHAR(255));
 """)
 
 user_table_create = ("""
-CREATE TABLE IF NOT EXISTS users \
-( \
+CREATE TABLE IF NOT EXISTS users ( \
  user_id INT PRIMARY KEY, \
  first_name VARCHAR(255), \
  last_name VARCHAR(255), \
  gender VARCHAR(255), \
- level VARCHAR(255) \
-);
+ level VARCHAR(255));
 """)
 
 song_table_create = ("""
-CREATE TABLE IF NOT EXISTS songs \
-( \
+CREATE TABLE IF NOT EXISTS songs ( \
  song_id VARCHAR(255) PRIMARY KEY, \
  title VARCHAR(255), \
  artist_id VARCHAR(255), \
  year INT, \
- duration DECIMAL \
-);
+ duration DOUBLE PRECISION);
 """)
 
 artist_table_create = ("""
-CREATE TABLE IF NOT EXISTS artists \
-( \
+CREATE TABLE IF NOT EXISTS artists (
  artist_id VARCHAR(255) PRIMARY KEY, \
  name VARCHAR(255), \
  location VARCHAR(255), \
- lattitude DECIMAL, \
- longitude DECIMAL \
-);
+ lattitude DOUBLE PRECISION, \
+ longitude DOUBLE PRECISION);
 """)
 
 time_table_create = ("""
-CREATE TABLE IF NOT EXISTS time \
-( \
+CREATE TABLE IF NOT EXISTS time ( \
  start_time TIMESTAMP PRIMARY KEY, \
  hour INT, \
  day INT, \
  week INT,\
  month INT, \
  year INT, \
- weekday INT \
- );
+ weekday INT);
 """)
 
 # STAGING TABLES
 
 staging_events_copy = ("""
+
 """).format()
 
 staging_songs_copy = ("""
