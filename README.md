@@ -18,16 +18,22 @@ Song and Log datasets are saved in AWS S3. A star schema is created including on
 
 ## Exmaple Queries
 ***
-* What are the top 10 most popular songs in 2018? 
+* What are the most popular songs in 2018? 
 
 ```SQL
-  SELECT COUNT(a.song_id) as 'number_played', a.title
-  (SELECT * 
-  FROM songplays JOIN songs ON songplays.song_id = songs.song_id) a
-  GROUP BY a.song_id
-  ORDER BY number_played DESC
+SELECT songs.title, songs.song_id
+FROM songs
+WHERE song_id = 
+(SELECT a.song_id
+FROM
+(SELECT songs.song_id,  songs.title
+FROM songplays JOIN songs ON songplays.song_id = songs.song_id) a
+GROUP BY a.song_id
+ORDER BY count(a.song_id) DESC
+LIMIT 1)
 ```
 
+**You're The One: 111 times!**
 ## Code Explanations
 **create_tables.py:** drops and creates your tables. Run this file to reset your tables before each time you run 
 your ETL scripts.
