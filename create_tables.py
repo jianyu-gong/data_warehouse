@@ -4,12 +4,23 @@ from sql_queries import create_table_queries, drop_table_queries
 
 
 def drop_tables(cur, conn):
+    """
+    This function is used to drop all tables before creating new tables 
+    avioding conflict table names then crashing down in Redshift.
+    :param cur: cursor; 
+    :param conn: connection; Connection to AWS Redshift database
+    """
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def create_tables(cur, conn):
+    """
+    This function is used to create two stage tables, one fact table and four dimension tables.
+    :param cur: cursor; 
+    :param conn: connection; Connection to AWS Redshift database
+    """
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()

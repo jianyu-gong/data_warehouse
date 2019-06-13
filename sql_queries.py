@@ -122,7 +122,8 @@ staging_songs_copy = ("copy staging_songs from {} \
 
 songplay_table_insert = ("""
     INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent) 
-    SELECT TIMESTAMP 'epoch' + ts/1000 *INTERVAL '1 second' as start_time, 
+    SELECT DISTINCT
+        TIMESTAMP 'epoch' + ts/1000 *INTERVAL '1 second' as start_time, 
         e.user_id, 
         e.level,
         s.song_id,
@@ -137,7 +138,8 @@ songplay_table_insert = ("""
 
 user_table_insert = ("""
     INSERT INTO users (user_id, first_name, last_name, gender, level)
-    SELECT user_id,
+    SELECT DISTINCT
+           user_id,
            firstName,
            lastName,
            gender,
@@ -148,7 +150,8 @@ user_table_insert = ("""
 
 song_table_insert = ("""
     INSERT INTO songs (song_id, title, artist_id, year, duration)
-    SELECT song_id, 
+    SELECT DISTINCT
+           song_id, 
            title,
            artist_id,
            year,
@@ -158,7 +161,8 @@ song_table_insert = ("""
 
 artist_table_insert = ("""
     INSERT INTO artists (artist_id, name, location, latitude, longitude)
-    SELECT artist_id,
+    SELECT DISTINCT
+           artist_id,
            artist_name,
            artist_location,
            artist_latitude,
